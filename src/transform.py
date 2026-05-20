@@ -1,7 +1,12 @@
+from pathlib import Path
 import pandas as pd
 
-df = pd.read_csv("data/clean/events.csv")
+input_path = Path("data/clean/events.csv")
+output_path = Path("data/transformed/events.csv")
+output_path.parent.mkdir(parents=True, exist_ok=True)
 
-df["date"] = pd.to_datetime(df["timestamp"]).dt.strftime("%Y-%m-%d")
+df = pd.read_csv(input_path)
 
-df.to_csv("data/transformed/events.csv", index=False)
+df["date"] = df["timestamp"].str[:10]
+
+df.to_csv(output_path, index=False)
